@@ -342,7 +342,7 @@ struct InputAction {
     /// The script source in case it has to be written.
     script: Option<String>,
 
-    /// Did the user ask to run tests or benchmarks?
+    /// Did the user ask to run tests, benchmarks, or build docs?
     build_kind: BuildKind,
 
     // Name of the built binary
@@ -457,6 +457,10 @@ impl InputAction {
             cmd.arg("-q");
         }
 
+        if matches!(self.build_kind, BuildKind::Doc) {
+            cmd.arg("--open");
+        }
+
         cmd.current_dir(&self.pkg_path);
 
         if platform::force_cargo_color() {
@@ -538,6 +542,7 @@ fn decide_action_for(
         BuildKind::Normal => args.debug,
         BuildKind::Test => true,
         BuildKind::Bench => false,
+        BuildKind::Doc => true,
     };
 
     Ok(InputAction {

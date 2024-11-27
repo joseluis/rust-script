@@ -136,7 +136,7 @@ impl Args {
                 .short('p')
                 .action(ArgAction::SetTrue)
                 .requires("script")
-                .conflicts_with_all(["debug", "force", "test", "bench"])
+                .conflicts_with_all(["debug", "force", "test", "bench", "doc"])
             )
             .arg(Arg::new("pkg_path")
                 .help("Specify where to place the generated Cargo package")
@@ -149,13 +149,19 @@ impl Args {
                 .help("Compile and run tests")
                 .long("test")
                 .action(ArgAction::SetTrue)
-                .conflicts_with_all(["bench", "debug", "force"])
+                .conflicts_with_all(["bench", "doc", "debug", "force"])
             )
             .arg(Arg::new("bench")
                 .help("Compile and run benchmarks. Requires a nightly toolchain")
                 .long("bench")
                 .action(ArgAction::SetTrue)
-                .conflicts_with_all(["test", "debug", "force"])
+                .conflicts_with_all(["test", "doc", "debug", "force"])
+            )
+            .arg(Arg::new("doc")
+                .help("Compile and open docs")
+                .long("doc")
+                .action(ArgAction::SetTrue)
+                .conflicts_with_all(["bench", "test", "debug", "force"])
             )
             .arg(Arg::new("toolchain")
                 .help("Build the script using the given toolchain version")
@@ -241,7 +247,7 @@ impl Args {
                 .remove_many::<String>("unstable_features")
                 .map(|values| values.collect())
                 .unwrap_or_default(),
-            build_kind: BuildKind::from_flags(m.get_flag("test"), m.get_flag("bench")),
+            build_kind: BuildKind::from_flags(m.get_flag("test"), m.get_flag("bench"), m.get_flag("doc")),
             toolchain_version: m.get_one::<String>("toolchain").map(Into::into),
             #[cfg(windows)]
             install_file_association: m.get_flag("install-file-association"),

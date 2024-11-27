@@ -3,6 +3,7 @@ pub enum BuildKind {
     Normal,
     Test,
     Bench,
+    Doc,
 }
 
 impl BuildKind {
@@ -11,15 +12,17 @@ impl BuildKind {
             Self::Normal => "build",
             Self::Test => "test",
             Self::Bench => "bench",
+            Self::Doc => "doc",
         }
     }
 
-    pub fn from_flags(test: bool, bench: bool) -> Self {
-        match (test, bench) {
-            (false, false) => Self::Normal,
-            (true, false) => Self::Test,
-            (false, true) => Self::Bench,
-            _ => panic!("got both test and bench"),
+    pub fn from_flags(test: bool, bench: bool, doc: bool) -> Self {
+        match (test, bench, doc) {
+            (false, false, false) => Self::Normal,
+            (true, false, false) => Self::Test,
+            (false, true, false) => Self::Bench,
+            (false, false, true) => Self::Doc,
+            _ => panic!("must choose just one from test, bench and doc"),
         }
     }
 }

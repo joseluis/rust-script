@@ -23,6 +23,7 @@ With `rust-script` Rust files and expressions can be executed just like a shell 
 - Supporting executable Rust scripts via Unix shebangs and Windows file associations.
 - Using expressions as stream filters (*i.e.* for use in command pipelines).
 - Running unit tests and benchmarks from scripts.
+- Compiling and opening the script documentation.
 
 You can get an overview of the available options using the `--help` flag.
 
@@ -107,6 +108,7 @@ Useful command-line arguments:
 - `--force`: Force the script to be rebuilt.  Useful if you want to force a recompile with a different toolchain.
 - `--package`: Generate the Cargo package and print the path to it - but don't compile or run it. Effectively "unpacks" the script into a Cargo package.
 - `--test`: Compile and run tests.
+- `--doc`: Compile and open docs.
 - `--wrapper`: Add a wrapper around the executable. Can be used to run debugging with e.g. `rust-script --debug --wrapper rust-lldb my-script.rs` or benchmarking with `rust-script --wrapper "hyperfine --runs 100" my-script.rs`
 
 ## Executable Scripts
